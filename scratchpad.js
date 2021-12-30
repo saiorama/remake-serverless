@@ -25,7 +25,7 @@ const SCRATCHPAD_ENDPOINT = 'https://moogle.cc/gallery/nirvaancms/attachments/';
 let filenameForSave = (ud) => {
   let url = new URL(document.location);
   let fn = `${url.host}${url.pathname === "/" ? "/index.html" : url.pathname}`.replace(/[^A-Za-z0-9]/g, '-'); 
-  return `${ud.email.replace(/[^A-Za-z0-9]/g, '')}/${fn}.json`;
+  return `${fn}.json`;
 };
 
 /**
@@ -152,7 +152,7 @@ let saveButtonClicked = async () => {
     let ud = userDetails();
     let data = localStorage.getItem(demoKey);
     if(ud && data){
-      let fn = filenameForSave(ud)
+      let fn = filenameForSave(ud);
       let filetype = 'application/json';
       let idToken = (JSON.parse(localStorage.getItem('userdetails')))['id_token'];
       let url = `${PSU_ENDPOINT}?filename=${fn}&filetype=${filetype}`;
