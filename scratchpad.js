@@ -18,6 +18,17 @@ const COGNITO_LOGIN_URL = `${COGNITO_URL}/login?client_id=${CLIENT_ID}&response_
 const SCRATCHPAD_ENDPOINT = 'https://moogle.cc/gallery/nirvaancms/attachments/';
 
 /** creates a json file name of the url
+  * replaces all non-alphanumeric chars in `<host>:<port>/path/to/html/file` with hyphens
+  * E.g., `http://localhost:8080/remake.html` will be converted to `localhost-8080-remake-html.json`
+**/
+let filenameForLoad = (ud) => {
+  let url = new URL(document.location);
+  let email = ud.email.replace(/[^A-Za-z0-9]/g, '');
+  let fn = `${url.host}${url.pathname === "/" ? "/index.html" : url.pathname}`.replace(/[^A-Za-z0-9]/g, '-'); 
+  return `${email}/${fn}.json`;
+};
+
+/** creates a json file name of the url
   * replaces all non-alphanumeric chars in `cognito_user.email` with empty string
   * replaces all non-alphanumeric chars in `<host>:<port>/path/to/html/file` with hyphens
   * E.g., `http://localhost:8080/remake.html` will be converted to `localhost-8080-remake-html.json`
@@ -40,7 +51,7 @@ let downloadJSON = async () => {
   else {
     let ud = userDetails();
     if(ud){
-      let fn = filenameForSave(ud)
+      let fn = filenameForLoad(ud);
       let url = `${SCRATCHPAD_ENDPOINT}${fn}?v=${Math.random()*1000}`;
       return await fetch(url)
       .then(d => d.json())
