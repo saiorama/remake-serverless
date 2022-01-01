@@ -16,6 +16,7 @@ const RESPONSE_TYPE = 'token';
 const SCOPE = 'email+openid';
 const COGNITO_LOGIN_URL = `${COGNITO_URL}/login?client_id=${CLIENT_ID}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}&redirect_uri=${LOGIN_REDIRECT_URL}`;
 const SCRATCHPAD_ENDPOINT = 'https://moogle.cc/gallery/nirvaancms/attachments/';
+const PSU_ENDPOINT = 'https://api.moogle.cc/p/tools/psu';
 
 /** creates a json file name of the url
   * replaces all non-alphanumeric chars in `<host>:<port>/path/to/html/file` with hyphens
@@ -159,7 +160,6 @@ let saveButtonClicked = async () => {
     crostini(`<a href="${COGNITO_LOGIN_URL}">Sign up/login</a> to save to ScratchPad. Saving locally...`, {type: "info"});
   }
   else {
-    const PSU_ENDPOINT = 'https://api.moogle.cc/p/tools/psu';
     let ud = userDetails();
     let data = localStorage.getItem(demoKey);
     if(ud && data){
